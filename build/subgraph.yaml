@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: wbtc
@@ -25,7 +25,7 @@ dataSources:
         - Transfer
       abis:
         - name: wbtc
-          file: ./abis/wbtc.json
+          file: wbtc/abis/wbtc.json
       eventHandlers:
         - event: Pause()
           handler: handlePause
@@ -45,4 +45,4 @@ dataSources:
           handler: handleApproval
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/wbtc.ts
+      file: wbtc/wbtc.wasm

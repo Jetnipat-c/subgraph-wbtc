@@ -11,7 +11,7 @@ import {
   Approval,
   Transfer
 } from "../generated/wbtc/wbtc"
-import { ExampleEntity } from "../generated/schema"
+import { ExampleEntity, TransferEntity } from "../generated/schema"
 
 export function handlePause(event: Pause): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -83,4 +83,15 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleApproval(event: Approval): void {}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  let entity = TransferEntity.load(event.transaction.from.toHex());
+  if (!entity) {
+    entity = new TransferEntity(event.transaction.from.toHex());
+  }
+  entity.txHash = event.transaction.hash.toHex();
+  entity.from = event.params.from;
+  entity.to = event.params.to;
+  entity.value = event.params.value;
+  entity.blockNumber = event.block.number;
+  entity.save()
+}
